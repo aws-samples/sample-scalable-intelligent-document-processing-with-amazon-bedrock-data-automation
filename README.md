@@ -1,11 +1,145 @@
-## My Project
+# Processing  Documents with a Human-in-the-Loop using Amazon Bedrock Data Automation and Amazon A2I
 
-TODO: Fill this README out!
 
-Be sure to:
+## Prerequisites
 
-* Change the title in this README
-* Edit your repository description on GitHub
+1. Node.js
+2. Python
+3. AWS Command Line Interface (AWS CLI)—for instructions, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
+4. Create a bedrock data automation project using the steps mentioned in createbdaproject.md file
+
+## Deployment
+
+The following code deploys the reference implementation in your AWS account. The solution deploys different components, including an S3 bucket, Step Functions, an Amazon Simple Queue Service (Amazon SQS) queue, and AWS Lambda functions using the AWS Cloud Development Kit (AWS CDK), which is an open-source software development framework to model and provision your cloud application resources using familiar programming languages.
+
+1. clone the GitHub repo:
+	```
+	git clone https://github.com/aws-samples/sample-scalable-intelligent-document-processing-with-amazon-bedrock-data-automation
+	```
+2. Execute the following commands to create the sharp npm package:
+	```
+	mkdir -p ~/environment/sharplayer/nodejs && cd ~/environment/sharplayer/nodejs 
+	npm init -y && npm install --arch=x64 --platform=linux sharp 
+	cd .. && zip -r sharplayer.zip . 
+	cp sharplayer.zip ~/environment/sample-scalable-intelligent-document-processing-with-amazon-bedrock-data-automation/deploy_code/multipagepdfbda_imageresize/ 
+	cd .. && rm -r sharplayer
+	```	
+3. Change to the repository directory:
+	```
+	cd sample-scalable-intelligent-document-processing-with-amazon-bedrock-data-automation
+	```
+4. Run the following command:
+	```
+	pip install -r requirements.txt
+
+	```
+	
+5. Execute the following command to create the required layer for lambda functions:
+	```
+	cd deploy_code/layer
+	pip install -r requirements.txt --target python
+	```	
+The first time you deploy an AWS CDK app into an environment for a specific AWS account and Region combination, you must install a bootstrap stack. This stack includes various resources that the AWS CDK needs to complete its operations. For example, this stack includes an Amazon Simple Storage Service (Amazon S3) bucket that the AWS CDK uses to store templates and assets during its deployment processes.
+
+6. Open the file `/sample-scalable-intelligent-document-processing-with-amazon-bedrock-data-automation/multipagepdfbda/multipagepdfbda_stack.py`. Update line 880 with the Bedrock Data Automation (BDA) Project ID that you saved while creating the BDA Project
+	```
+	"PROJECT_ID": 
+	```
+
+7. To install the bootstrap stack, run the following command:
+	```
+	cdk bootstrap
+	```
+8. From the project's root directory, run the following command to deploy the stack:
+	```
+	cdk deploy
+	```
+9. Update the cross-origin resource sharing (CORS) for the S3 bucket:
+   a. On the Amazon S3 console, choose Buckets in the navigation pane.
+   b. Choose the name of the bucket that was created in the AWS CDK deployment step. It should have a name format like multipagepdfbda-multipagepdf-xxxxxxxxx.
+   c. Choose Permissions.
+   d. In the Cross-origin resource sharing (CORS) section, choose Edit.
+   e. In the CORS configuration editor text box, enter the following CORS configuration:
+
+      ```
+      [
+         {
+            "AllowedHeaders": [
+               "Authorization"
+            ],
+            "AllowedMethods": [
+               "GET",
+               "HEAD"
+            ],
+            "AllowedOrigins": [
+               "*"
+            ],
+            "ExposeHeaders": [
+               "Access-Control-Allow-Origin"
+            ]
+         }
+      ]
+      ```
+10. Create a private team: https://docs.aws.amazon.com/sagemaker/latest/dg/sms-workforce-create-private-console.html
+	
+	a. On the SageMaker AI console, navigate to "Labeling workforces" under Ground Truth in the navigation pane.
+	b. Select the Private tab and choose "Create private team".
+	c. Select "Invite new workers by email".
+	d. In the Email addresses box, enter the email addresses for your work team (use your email address for testing).
+	e. Provide an organization name and contact email.
+	f. Click "Create private team".
+	g. After creating the private team, you will receive an email invitation.
+	h. Click the invitation link and change your password to become a verified worker for the team.
+
+Your workforce is now set up and ready to create a human review workflow.
+	
+
+10. Create a human review workflow: 
+	 a. Create a Custom Worker task template using the process mentioned here https://docs.aws.amazon.com/sagemaker/latest/dg/a2i-worker-template-console.html#a2i-create-worker-template-console, use the content from Custom-Template file
+		
+		1. On the SageMaker AI console, choose Worker task templates under Augmented AI in the navigation pane.
+		2. Click "Create template".
+		3. In the Template name field, enter a descriptive name for your template and  select Custom for Template type.
+		4. Copy the contents from the Custom template file you downloaded from GitHub repo and replace the content in the Template editor section.
+		5. Click "Create" to save the template.
+		
+	 b. Create the human review workflow using the process mentioned here - https://docs.aws.amazon.com/sagemaker/latest/dg/a2i-create-flow-definition.html#a2i-create-human-review-console
+	 
+		1. On the SageMaker AI console, choose Human review workflows under Augmented AI in the navigation pane.
+		2. Click "Create human review workflow.".
+		3. In the Workflow settings section, for Name, enter a unique workflow name.
+		4. For S3 bucket, enter the S3 bucket that was created in the AWS CDK deployment step. It should have a name format like multipagepdfbda-multipagepdfbda-xxxxxxxxx. This bucket is where Amazon A2I will store the human review results.
+		5. For IAM role, choose Create a new role for Amazon A2I to create a role automatically for you.
+				I) For S3 buckets you specify, select Specific S3 buckets.
+				II) Enter the S3 bucket you specified earlier in Step 9; for example, multipagepdfbda-multipagepdfbda-xxxxxxxxxx.
+				III) Choose Create.
+				iV) You see a confirmation when role creation is complete, and your role is now pre-populated on the IAM role dropdown menu.
+		6. For Task type, select Custom.
+		7. In the worker task template section, choose the template that you previously created.
+		8. For Task Description, enter “Review the extracted content from the document and make changes as needed”.
+		9. For Worker types, select Private.
+		10. For Private teams, choose the work team you created earlier.
+		11. Choose Create.
+		
+		You’re redirected to the Human review workflows page, where you will see a confirmation message.
+		
+		In a few seconds, the status of the workflow will be changed to active. Record your new human review workflow ARN, which you use to configure your human loop in a later step.
+	 
+10. Open the file `/sample-scalable-intelligent-document-processing-with-amazon-bedrock-data-automation/multipagepdfbda/multipagepdfbda_stack.py`. Update line 23 with the ARN of the human review workflow and save the changes
+
+    ```python
+    SAGEMAKER_WORKFLOW_AUGMENTED_AI_ARN_EV = ""
+    ```
+
+11. Run `cdk deploy` to update the solution with the human review workflow ARN.
+
+## Clean Up
+
+1. First, you'll need to completely empty the S3 bucket that was created.
+2. Finally, you'll need to run:
+   ```
+   cdk destroy
+   ```
 
 ## Security
 
@@ -13,5 +147,4 @@ See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more inform
 
 ## License
 
-This library is licensed under the MIT-0 License. See the LICENSE file.
-
+This library is licensed under the MIT-0 License. See the [LICENSE](LICENSE) file.
