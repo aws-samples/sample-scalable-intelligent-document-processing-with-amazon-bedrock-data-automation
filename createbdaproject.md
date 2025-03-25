@@ -43,23 +43,29 @@ We saw how to add sample blueprint to the BDA Project, now let’s custom bluepr
 <img src="../../blob/main/assets/screenshots/AWS_Console_Screenshot_6_-_extraction_start.png" width="800" />
 
 
-* Click the “Generate Blueprint” button. BDA will read the sample file, extract the keys and values, and create a new reusable Blueprint for future Homeowners Insurance Application forms. 
+* Click the “Generate Blueprint” button. BDA will read the sample file, extract the keys and values, and create a new reusable Blueprint for Child Support Services Enrollment Forms. 
 * Name the blueprint “child-support-services-enrollment-form”
-* Click “Add to Project” and “Add to existing project”, add add this new blueprint to our project named “my-idpdemo-project”. 
+
+
+<img src="../../blob/main/assets/screenshots/AWS_Console_Screenshot_7_-_extraction_end.png" width="800" />
+
 * Click “Save and exit blueprint prompt”
-* Examine the results from the blueprint. Note that BDA has read all the fields from the form. Depending on your initial prompt, review the resuls, you can tweak the wording of the initial prompt, or choose "Manually create blueprint" and specify each field you want to extract.
+* Click “Add to Project” and “Add to existing project”, add add this new blueprint to our project named “my-idpdemo-project”. 
+* Cllck Generate result and examine the results from the blueprint. Note that BDA has read all the fields from the form. Depending on your initial prompt, review the resuls, you can tweak the wording of the initial prompt, or choose "Manually create blueprint" and specify each field you want to extract.
+
+<img src="../../blob/main/assets/screenshots/AWS_Console_Screenshot_8_-_extraction_details.png" width="800" />
 
 We now have a project with 2 blueprints. 
 
 * Navigate to BDA, then “Projects”. Select the project named “my-idpdemo-project”. 
 * Choose the ‘Custom Output’ tab, where we can see the Blueprints assigned to the project. You’ll now see our project has two blueprints. If you don’t see six blueprints, please go back and retrace your steps. For the next activity, we need to have all the blueprints associated with our project. 
 
-<img src="../../blob/main/assets/screenshots/AWS_Console_Screenshot_8_-_list_blueprints_2.png" width="800" />
+<img src="../../blob/main/assets/screenshots/AWS_Console_Screenshot_9_-_list_blueprints_2.png" width="800" />
 
 
 ```bash
-# to be run from the deployment/ folder
-python ../source/lending_flow/activate_document_splitting.py my-lending-project
+# to be run in the main folder
+python activate_document_splitting.py my-lending-project
 ```
 
 This should result in the following output, which has the document splitter now enabled.
