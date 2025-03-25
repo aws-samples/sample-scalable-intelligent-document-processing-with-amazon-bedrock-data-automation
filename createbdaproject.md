@@ -64,16 +64,15 @@ We now have a project with 2 blueprints.
 
 
 ```bash
-# to be run in the main folder
-python activate_document_splitting.py my-lending-project
+# to be run in the documentsplitter folder
+python activate_document_splitting.py my-idpdemo-project
 ```
 
 This should result in the following output, which has the document splitter now enabled.
 
 ```bash
-(.venv) ~/projects/guidance-for-multimodal-data-processing-using-amazon-bedrock-data-automation/deployment python ../source/lending_flow/activate_document_splitting.py my-idpdemo-project
-Get project list and find matching project for my-lending-project
-Activating document splitting for project: my-lending-project, arn:aws:bedrock:us-west-2:XXXXXXXXXXXX:data-automation-project/XXXXXXX
+Get project list and find matching project for my-idpdemo-project
+Activating document splitting for project: my-idpdemo-project, arn:aws:bedrock:XXXXXXXX:XXXXXXXXXXXX:data-automation-project/XXXXXXX
 
 Updated override configuration of project:
 {
