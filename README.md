@@ -6,7 +6,7 @@
 1. Node.js
 2. Python
 3. AWS Command Line Interface (AWS CLI)—for instructions, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
-4. Create a bedrock data automation project using the steps mentioned in createbdaproject.md file
+4. Create a bedrock data automation project using the steps mentioned in createbdaproject.md
 
 ## Deployment
 
@@ -140,6 +140,28 @@ Your workforce is now set up and ready to create a human review workflow.
    ```
    cdk destroy
    ```
+## Test the solution
+
+1. To test the solution, create a folder called uploads in the S3 bucket multipagepdfbda-multipagepdfbda-xxxxxxxxx and upload the sample PDF document (assets/documents/child-support-services-enrollment-form-and-driver-license.pdf) provided. For example,   uploads/child-support-services-enrollment-form-and-driver-license.pdf
+2. On the SageMaker console, choose Labeling workforces under Ground Truth in the navigation pane.
+3. On the Private tab, choose the link under Labeling portal sign-in URL.
+
+<img src="../../blob/main/assets/screenshots/AWS_Console_Screenshot_10_-_private_team.png" width="800" />
+
+
+4. Sign in with the account you configured with Amazon Cognito.
+5. Select the job you want to complete and choose Start working.
+
+<img src="../../blob/main/assets/screenshots/AWS_Console_Screenshot_10_-_human_review_1.png" width="800" />
+
+
+6. In the reviewer UI, you will see instructions and the document to work on. You can use the toolbox to zoom in and out, fit image, and reposition the document.
+7. This UI is specifically designed for document-processing tasks. On the right side of the preceding screenshot, the extracted data is automatically prefilled with the Amazon Bedrock Data Automation response. As a worker, you can quickly refer to this sidebar to make sure the extracted information is identified correctly.
+
+<img src="../../blob/main/assets/screenshots/AWS_Console_Screenshot_10_-_a2i_console.png" width="800" />
+
+8. When you complete the human review, you will see the 3 different files in the complete folder
+
 
 ## Security
 

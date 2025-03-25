@@ -62,6 +62,7 @@ We now have a project with 2 blueprints.
 
 <img src="../../blob/main/assets/screenshots/AWS_Console_Screenshot_9_-_list_blueprints_2.png" width="800" />
 
+The Document Splitting is disabled by default, lets activate it by running the following code:
 
 ```bash
 # to be run in the documentsplitter folder
