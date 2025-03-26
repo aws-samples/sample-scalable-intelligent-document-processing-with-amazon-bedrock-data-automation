@@ -19,6 +19,7 @@ Next we will add a set of standard blueprints to the project. These blueprints a
 
 <img src="../../blob/main/assets/screenshots/AWS_Console_Screenshot_2_-_idpdemo_project.png" width="800" />
 
+*  Note the Project ID from the Project Details section, you will need it while deploying the solution.
 * “Select from enable checkbox” in the Document Splitter section.
 * click the “Select from blueprint list” button. 
 * Enter “US-Driver-License” into the search box, to find the “US-Driver-License” blueprint
