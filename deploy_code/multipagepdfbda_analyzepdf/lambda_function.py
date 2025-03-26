@@ -73,7 +73,7 @@ def dump_task_token_in_dynamodb(event, total_pages=1):
     try:
         response = dynamodb.get_item(
             TableName=os.environ['ddb_tablename'],
-            Key={'jobid': {'S': event["human_loop_id"]}}
+            Key={'jobid': {'S': event["human_loop_id"]},'callback_token': {'S': event["token"]}}
         )
         
         # If entry exists, we don't need to create it again
@@ -92,7 +92,6 @@ def dump_task_token_in_dynamodb(event, total_pages=1):
             'callback_token': {'S': event["token"]},
             'extension': {'S': event["extension"]},
             'total_pages': {'N': str(total_pages)},
-            'completed_pages': {'N': '0'},
             'document_id': {'S': event["id"]},
             'is_complete': {'BOOL': False}
         }
