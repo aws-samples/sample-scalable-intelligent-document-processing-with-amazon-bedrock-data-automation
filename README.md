@@ -41,20 +41,26 @@ The following code deploys the reference implementation in your AWS account. The
 	```	
 The first time you deploy an AWS CDK app into an environment for a specific AWS account and Region combination, you must install a bootstrap stack. This stack includes various resources that the AWS CDK needs to complete its operations. For example, this stack includes an Amazon Simple Storage Service (Amazon S3) bucket that the AWS CDK uses to store templates and assets during its deployment processes.
 
-6. Open the file `/sample-scalable-intelligent-document-processing-with-amazon-bedrock-data-automation/multipagepdfbda/multipagepdfbda_stack.py`. Update line 880 with the Bedrock Data Automation (BDA) Project ID that you saved while creating the BDA Project
+6. change to the main directory (sample-scalable-intelligent-document-processing-with-amazon-bedrock-data-automation). 
+	```
+	cd ../.. 
+	```
+
+
+7. Open the file `/sample-scalable-intelligent-document-processing-with-amazon-bedrock-data-automation/multipagepdfbda/multipagepdfbda_stack.py`. Update line 880 with the Bedrock Data Automation (BDA) Project ID that you saved while creating the BDA Project
 	```
 	"PROJECT_ID": 
 	```
 
-7. To install the bootstrap stack, run the following command:
+8. To install the bootstrap stack, run the following command:
 	```
 	cdk bootstrap
 	```
-8. From the project's root directory, run the following command to deploy the stack:
+9. From the project's root directory, run the following command to deploy the stack:
 	```
 	cdk deploy
 	```
-9. Update the cross-origin resource sharing (CORS) for the S3 bucket:
+10. Update the cross-origin resource sharing (CORS) for the S3 bucket:
    a. On the Amazon S3 console, choose Buckets in the navigation pane.
    b. Choose the name of the bucket that was created in the AWS CDK deployment step. It should have a name format like multipagepdfbda-multipagepdf-xxxxxxxxx.
    c. Choose Permissions.
@@ -80,7 +86,7 @@ The first time you deploy an AWS CDK app into an environment for a specific AWS 
          }
       ]
       ```
-10. Create a private team: https://docs.aws.amazon.com/sagemaker/latest/dg/sms-workforce-create-private-console.html
+11. Create a private team: https://docs.aws.amazon.com/sagemaker/latest/dg/sms-workforce-create-private-console.html
 	
 	a. On the SageMaker AI console, navigate to "Labeling workforces" under Ground Truth in the navigation pane.
 	b. Select the Private tab and choose "Create private team".
@@ -94,7 +100,7 @@ The first time you deploy an AWS CDK app into an environment for a specific AWS 
 Your workforce is now set up and ready to create a human review workflow.
 	
 
-10. Create a human review workflow: 
+12. Create a human review workflow: 
 	 a. Create a Custom Worker task template using the process mentioned here https://docs.aws.amazon.com/sagemaker/latest/dg/a2i-worker-template-console.html#a2i-create-worker-template-console, use the content from Custom-Template file
 		
 		1. On the SageMaker AI console, choose Worker task templates under Augmented AI in the navigation pane.
@@ -111,7 +117,7 @@ Your workforce is now set up and ready to create a human review workflow.
 		4. For S3 bucket, enter the S3 bucket that was created in the AWS CDK deployment step. It should have a name format like multipagepdfbda-multipagepdfbda-xxxxxxxxx. This bucket is where Amazon A2I will store the human review results.
 		5. For IAM role, choose Create a new role for Amazon A2I to create a role automatically for you.
 				I) For S3 buckets you specify, select Specific S3 buckets.
-				II) Enter the S3 bucket you specified earlier in Step 9; for example, multipagepdfbda-multipagepdfbda-xxxxxxxxxx.
+				II) Enter the S3 bucket in the format; for example, s3://multipagepdfbda-multipagepdfbda-xxxxxxxxxx/.
 				III) Choose Create.
 				iV) You see a confirmation when role creation is complete, and your role is now pre-populated on the IAM role dropdown menu.
 		6. For Task type, select Custom.
@@ -125,13 +131,13 @@ Your workforce is now set up and ready to create a human review workflow.
 		
 		In a few seconds, the status of the workflow will be changed to active. Record your new human review workflow ARN, which you use to configure your human loop in a later step.
 	 
-10. Open the file `/sample-scalable-intelligent-document-processing-with-amazon-bedrock-data-automation/multipagepdfbda/multipagepdfbda_stack.py`. Update line 23 with the ARN of the human review workflow and save the changes
+13. Open the file `/sample-scalable-intelligent-document-processing-with-amazon-bedrock-data-automation/multipagepdfbda/multipagepdfbda_stack.py`. Update line 23 with the ARN of the human review workflow and save the changes
 
     ```python
     SAGEMAKER_WORKFLOW_AUGMENTED_AI_ARN_EV = ""
     ```
 
-11. Run `cdk deploy` to update the solution with the human review workflow ARN.
+14. Run `cdk deploy` to update the solution with the human review workflow ARN.
 
 ## Clean Up
 
@@ -153,7 +159,6 @@ Your workforce is now set up and ready to create a human review workflow.
 5. Select the job you want to complete and choose Start working.
 
 <img src="../../blob/main/assets/screenshots/AWS_Console_Screenshot_10_-_human_review_1.png" width="800" />
-
 
 6. In the reviewer UI, you will see instructions and the document to work on. You can use the toolbox to zoom in and out, fit image, and reposition the document.
 7. This UI is specifically designed for document-processing tasks. On the right side of the preceding screenshot, the extracted data is automatically prefilled with the Amazon Bedrock Data Automation response. As a worker, you can quickly refer to this sidebar to make sure the extracted information is identified correctly.
