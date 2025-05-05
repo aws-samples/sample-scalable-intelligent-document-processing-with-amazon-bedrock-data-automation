@@ -165,6 +165,8 @@ Your workforce is now set up and ready to create a human review workflow.
 
 <img src="../../blob/main/assets/screenshots/AWS_Console_Screenshot_10_-_a2i_console.png" width="800" />
 
+<img src="../../blob/main/assets/screenshots/AWS_Console_Screenshot_12_-_a2i_console_Child_Support_enrollment_form_a2i.png" width="800" />
+
 8. When you complete the human review for all pages, you will find three different files in the **complete** folder for each document. Since the uploaded document contains two separate documents (1. Driver's License and 2. Child Support Services Enrollment Form), you will have a total of six files:
 	1. Files ending with "bda-responses.json" contain the data response from BDA in JSON format.
 	2. Files ending with "human-responses.json" contain the data from the human review response in JSON format.
