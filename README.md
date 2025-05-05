@@ -6,7 +6,7 @@
 1. Node.js
 2. Python
 3. AWS Command Line Interface (AWS CLI)—for instructions, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
-4. Create a bedrock data automation project using the steps mentioned in createbdaproject.md
+4. Create a blueprint and Bedrock Data Autoamtion Project using the steps mentioned in [createbdaproject.md](createbdaproject.md)
 
 ## Deployment
 
@@ -47,7 +47,7 @@ The first time you deploy an AWS CDK app into an environment for a specific AWS 
 	```
 
 
-7. Open the file `/sample-scalable-intelligent-document-processing-with-amazon-bedrock-data-automation/multipagepdfbda/multipagepdfbda_stack.py`. Update line 880 with the Bedrock Data Automation (BDA) Project ID that you saved while creating the BDA Project
+7. Open the file `/sample-scalable-intelligent-document-processing-with-amazon-bedrock-data-automation/multipagepdfbda/multipagepdfbda_stack.py`. Update line 880 with the Bedrock Data Automation (BDA) Project ID that you saved while creating the BDA Project as per steps mentioned in [createbdaproject.md](createbdaproject.md)
 	```
 	"PROJECT_ID": 
 	```
@@ -148,7 +148,7 @@ Your workforce is now set up and ready to create a human review workflow.
    ```
 ## Test the solution
 
-1. To test the solution, create a folder called **uploads** in the S3 bucket **multipagepdfbda-multipagepdfbda-xxxxxxxxx** and upload the sample PDF document (assets/documents/child-support-services-enrollment-form-and-driver-license.pdf) provided. For example,   **uploads/child-support-services-enrollment-form-and-driver-license.pdf**
+1. To test the solution, create a folder called **uploads** in the S3 bucket **multipagepdfbda-multipagepdfbda-xxxxxxxxx** and upload the sample PDF document [child-support-services-enrollment-form-and-driver-license.pdf](assets/documents/child-support-services-enrollment-form-and-driver-license.pdf) provided. For example,   **uploads/child-support-services-enrollment-form-and-driver-license.pdf**
 2. On the SageMaker AI console, choose Labeling workforces under Ground Truth in the navigation pane.
 3. On the Private tab, choose the link under Labeling portal sign-in URL.
 
