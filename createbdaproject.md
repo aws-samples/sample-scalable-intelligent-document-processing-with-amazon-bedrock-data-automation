@@ -6,7 +6,7 @@ For this solution, we will be processing a PDF file which has 2 documents -
    
 We will use BDA to identify each document, and then to extract the data we need for downstream processing
 
-## Step1 : Create BDA Project
+## Step 1 : Create BDA Project
 
 We will next create a project within BDA.
 
@@ -18,7 +18,7 @@ We will next create a project within BDA.
 
 <img src="../../blob/main/assets/screenshots/AWS_Console_Screenshot_1_-_BDA_Projects.png" width="800" />
 
-## Step2 : Add Standard Bluerint to the BDA Project
+## Step 2 : Add Standard Bluerint to the BDA Project
 
 Next we will add a set of standard blueprints to the project. These blueprints are provided by AWS out-of-the-box. 
 
@@ -44,7 +44,7 @@ Your project now will have one blueprint and looks like this.
 <img src="../../blob/main/assets/screenshots/AWS_Console_Screenshot_5_-_create_blueprint.png" width="800" />
 
 
-## Step3 : Add Custom Blueprint to the BDA Project
+## Step 3 : Add Custom Blueprint to the BDA Project
 
 We saw how to add sample blueprint to the BDA Project, now let's create a custom blueprint for the Child Support Enrollment Application form. You can add this blueprint using either the AWS Console or AWS CLI.
 
@@ -94,5 +94,5 @@ We now have a project with 2 blueprints.
 <img src="../../blob/main/assets/screenshots/AWS_Console_Screenshot_9_-_list_blueprints_2.png" width="800" />
 
 
-## Step4 : Deployment
+## Step 4 : Deployment
 Once the Project with 2 blue prints are created you are ready for end to end deployment using AWS CDK. Check the Deployment Instruction [ReadMe.md](ReadMe.md)
