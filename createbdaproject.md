@@ -79,7 +79,7 @@ Once your blueprint is created, you can enhance it with:
 
 ### Using AWS CLI:
 
-If you have created Blueprint using AWS Console, you can skip this Step. The blueprint schema for the Child Support Enrollment form with custom field defintions, Noramlization, Transformation and Validation configurations is available in [assets/documents/child-support-services-enrollment-form-blueprint.json](assets/documents/child-support-services-enrollment-form-blueprint.json).
+If you have created Blueprint using AWS Console, you can skip this Step. The blueprint schema for the Child Support Enrollment form with custom field defintions, Noramlization, Transformation and Validation configurations is available in [child-support-services-enrollment-form-blueprint.json](assets/documents/child-support-services-enrollment-form-blueprint.json).
  You can download the JSON and alternatively create a blueprint using AWS CLI:
 ```
 aws bedrock-data-automation create-blueprint --blueprint-name "ChildSupportEnrollmentBluePrint" --type DOCUMENT --schema file://child-support-services-enrollment-form-blueprint.json
