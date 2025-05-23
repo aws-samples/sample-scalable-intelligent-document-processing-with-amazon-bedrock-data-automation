@@ -6,7 +6,7 @@
 1. Node.js
 2. Python
 3. AWS Command Line Interface (AWS CLI)—for instructions, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
-4. Create a bedrock data automation project using the steps mentioned in createbdaproject.md
+4. Create a blueprint and Bedrock Data Autoamtion Project using the steps mentioned in [createbdaproject.md](createbdaproject.md)
 
 ## Deployment
 
@@ -16,7 +16,7 @@ The following code deploys the reference implementation in your AWS account. The
 	```
 	git clone https://github.com/aws-samples/sample-scalable-intelligent-document-processing-with-amazon-bedrock-data-automation
 	```
-2. Execute the following commands to create the sharp npm package:
+2. Execute the following commands to create the sharp npm package (a high-performance image processing library used to resize images to comply with Amazon Bedrock Data Automation size limits as per https://docs.aws.amazon.com/bedrock/latest/userguide/bda-limits.html), adjusting the paths as needed for your installation directory:
 	```
 	mkdir -p ~/environment/sharplayer/nodejs && cd ~/environment/sharplayer/nodejs 
 	npm init -y && npm install --arch=x64 --platform=linux sharp 
@@ -24,7 +24,7 @@ The following code deploys the reference implementation in your AWS account. The
 	cp sharplayer.zip ~/environment/sample-scalable-intelligent-document-processing-with-amazon-bedrock-data-automation/deploy_code/multipagepdfbda_imageresize/ 
 	cd .. && rm -r sharplayer
 	```	
-3. Change to the repository directory:
+3. Navigate back to the repository directory (use the full path to where you cloned the repo):
 	```
 	cd sample-scalable-intelligent-document-processing-with-amazon-bedrock-data-automation
 	```
@@ -39,7 +39,12 @@ The following code deploys the reference implementation in your AWS account. The
 	cd deploy_code/layer
 	pip install -r requirements.txt --target python
 	```	
-The first time you deploy an AWS CDK app into an environment for a specific AWS account and Region combination, you must install a bootstrap stack. This stack includes various resources that the AWS CDK needs to complete its operations. For example, this stack includes an Amazon Simple Storage Service (Amazon S3) bucket that the AWS CDK uses to store templates and assets during its deployment processes.
+   Before deploying the solution, you need to bootstrap your AWS environment if you haven't done so before. The AWS CDK bootstrap process creates necessary 
+   resources (like an Amazon S3 bucket) that CDK needs to deploy applications in your AWS account and Region. Run the following command to bootstrap your 
+   environment:
+
+	   cdk bootstrap aws://YOUR-ACCOUNT-NUMBER/YOUR-REGION
+
 
 6. change to the main directory (sample-scalable-intelligent-document-processing-with-amazon-bedrock-data-automation). 
 	```
@@ -47,7 +52,7 @@ The first time you deploy an AWS CDK app into an environment for a specific AWS 
 	```
 
 
-7. Open the file `/sample-scalable-intelligent-document-processing-with-amazon-bedrock-data-automation/multipagepdfbda/multipagepdfbda_stack.py`. Update line 880 with the Bedrock Data Automation (BDA) Project ID that you saved while creating the BDA Project
+7. Open the file `multipagepdfbda/multipagepdfbda_stack.py`. Update line 880 with the Bedrock Data Automation (BDA) Project ID that you saved while creating the BDA Project as per steps mentioned in [createbdaproject.md](createbdaproject.md)
 	```
 	"PROJECT_ID": 
 	```
@@ -148,7 +153,7 @@ Your workforce is now set up and ready to create a human review workflow.
    ```
 ## Test the solution
 
-1. To test the solution, create a folder called **uploads** in the S3 bucket **multipagepdfbda-multipagepdfbda-xxxxxxxxx** and upload the sample PDF document (assets/documents/child-support-services-enrollment-form-and-driver-license.pdf) provided. For example,   **uploads/child-support-services-enrollment-form-and-driver-license.pdf**
+1. To test the solution, create a folder called **uploads** in the S3 bucket **multipagepdfbda-multipagepdfbda-xxxxxxxxx** and upload the sample PDF document [child-support-services-enrollment-form-and-driver-license.pdf](assets/documents/child-support-services-enrollment-form-and-driver-license.pdf) provided. For example,   **uploads/child-support-services-enrollment-form-and-driver-license.pdf**
 2. On the SageMaker AI console, choose Labeling workforces under Ground Truth in the navigation pane.
 3. On the Private tab, choose the link under Labeling portal sign-in URL.
 
@@ -164,6 +169,8 @@ Your workforce is now set up and ready to create a human review workflow.
 7. This UI is specifically designed for document-processing tasks. On the right side of the preceding screenshot, the extracted data is automatically prefilled with the Amazon Bedrock Data Automation response. As a worker, you can quickly refer to this sidebar to make sure the extracted information is identified correctly.
 
 <img src="../../blob/main/assets/screenshots/AWS_Console_Screenshot_10_-_a2i_console.png" width="800" />
+
+<img src="../../blob/main/assets/screenshots/AWS_Console_Screenshot_12_-_a2i_console_Child_Support_enrollment_form_a2i.png" width="800" />
 
 8. When you complete the human review for all pages, you will find three different files in the **complete** folder for each document. Since the uploaded document contains two separate documents (1. Driver's License and 2. Child Support Services Enrollment Form), you will have a total of six files:
 	1. Files ending with "bda-responses.json" contain the data response from BDA in JSON format.
