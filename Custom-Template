@@ -1,0 +1,484 @@
+<script src="https://assets.crowd.aws/crowd-html-elements.js"></script>
+<crowd-form>
+
+<div id="image-modal" class="modal" style="display: none;">
+    <span class="close-modal">&times;</span>
+    <div class="zoom-controls">
+        <button type="button" id="zoom-in" class="zoom-btn">+</button>
+        <button type="button" id="zoom-reset" class="zoom-btn">Reset</button>
+        <button type="button" id="zoom-out" class="zoom-btn">-</button>
+    </div>
+    <img id="modal-image" class="modal-content">
+    <div id="modal-caption"></div>
+</div>
+
+  <div style="display: flex; flex-direction: row; gap: 30px; padding: 20px; max-width: 1400px; margin: 0 auto; min-height: 800px;">
+    <!-- Left: Image Display -->
+    <div style="flex: 1; position: relative;">
+      <div id="image-container" style="position: relative; border: 1px solid #ddd; padding: 10px; border-radius: 8px; height: 100%;">
+        <img id="document-image" 
+             src="{{ task.input.taskObject | grant_read_access }}"
+             style="width: 100%; display: block; border-radius: 4px; max-height: 100%; object-fit: contain;"
+        />
+        <div id="highlight-overlay" style="position: absolute; top: 10px; left: 10px; right: 10px; bottom: 10px; pointer-events: none;"></div>
+        
+        <div class="image-controls">
+          <button type="button" id="main-zoom-out" class="control-btn" title="Zoom Out">-</button>
+          <button type="button" id="main-zoom-reset" class="control-btn" title="Reset Zoom">Reset</button>
+          <button type="button" id="main-zoom-in" class="control-btn" title="Zoom In">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Detected Fields -->
+    <div style="flex: 1; border-left: 2px solid #ccc; padding: 0 20px; display: flex; flex-direction: column;">
+      <div style="background-color: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex-grow: 1; display: flex; flex-direction: column;">
+        <h3 style="margin-top: 0; margin-bottom: 20px; color: #333;">Detected Fields</h3>
+        <div id="staticLabels" style="flex-grow: 1; overflow-y: auto; padding-right: 10px;">
+          {% for label in task.input.labels %}
+			<div class="label-card" 
+				 data-bbox="{{ label.boundingBox | to_json }}"
+				 data-vertices="{{ label.vertices | to_json }}"
+				 data-label-name="{{label.name}}">
+				<div style="display: flex; justify-content: space-between; align-items: center;">
+					<div style="display: flex; align-items: center; gap: 15px; flex-grow: 1; min-width: 0;">
+						<span class="label-name">{{ label.name }}</span>
+						<input type="text" 
+							   class="editable-value"
+							   name="{{ label.name }}"
+							   value="{{ label.value }}"
+							   style="padding: 6px 10px; border: 1px solid #ced4da; border-radius: 4px; flex-grow: 1; min-width: 0; font-size: 1em;"
+						/>
+					</div>
+					<span class="confidence-badge">
+						{{ label.confidence | times: 100 | round: 2 }}%
+					</span>
+				</div>
+			</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Centered Submit Button -->
+  <div style="text-align: center; margin-top: 20px; padding: 20px;">
+    <crowd-button form-action="submit" 
+                 style="
+                   padding: 10px 30px;
+                   font-size: 1.1em;
+                   background-color: #0d6efd;
+                   color: white;
+                   border: none;
+                   border-radius: 4px;
+                   cursor: pointer;
+                 "
+    >
+      Submit
+    </crowd-button>
+  </div>
+</crowd-form>
+
+<style>
+  .label-card {
+    transition: all 0.2s ease;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+  }
+  .label-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  .label-card.active {
+    background-color: #e9ecef !important;
+    border: 2px solid #0d6efd;
+  }
+  .highlight-box {
+    position: absolute;
+    border: 2px solid rgba(0, 123, 255, 0.7);
+    background-color: rgba(0, 123, 255, 0.05);
+    pointer-events: none;
+    z-index: 1000;
+    transition: all 0.2s ease;
+  }
+  .editable-value:focus {
+    outline: none;
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25);
+  }
+  #staticLabels::-webkit-scrollbar {
+    width: 8px;
+  }
+  #staticLabels::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+  #staticLabels::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+  #staticLabels::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  
+  .label-card {
+    transition: all 0.2s ease;
+    background: linear-gradient(to right, #ffffff, #f8f9fa) !important;
+    border: 1px solid #e0e0e0 !important;
+  }
+
+  .label-name {
+    background: #f0f4f8;
+    padding: 5px 10px;
+    border-radius: 4px;
+    color: #2c3e50;
+    font-weight: 600;
+    display: inline-block;
+  }
+
+  .confidence-badge {
+    background: linear-gradient(45deg, #4CAF50, #45a049);
+    color: white !important;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    font-weight: 500;
+  }
+
+  .modal {
+    position: fixed;
+    z-index: 1000;
+    padding-top: 50px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.9);
+  }
+
+  .modal-content {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 90vh;
+    transition: transform 0.3s ease;
+  }
+
+  .close-modal {
+    position: absolute;
+    right: 35px;
+    top: 15px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1001;
+  }
+
+  #document-image {
+    cursor: zoom-in;
+    transition: transform 0.3s ease;
+  }
+
+  #modal-caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+  }
+
+  .zoom-controls {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1001;
+    display: flex;
+    gap: 10px;
+  }
+
+  .zoom-btn {
+    background-color: rgba(255, 255, 255, 0.7);
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.2s ease;
+  }
+
+  .zoom-btn:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+
+  .image-controls {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    gap: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 6px;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  }
+
+  .control-btn {
+    background-color: rgba(13, 110, 253, 0.1);
+    border: 1px solid rgba(13, 110, 253, 0.2);
+    border-radius: 4px;
+    padding: 4px 12px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s ease;
+    color: #0d6efd;
+  }
+
+  .control-btn:hover {
+    background-color: rgba(13, 110, 253, 0.2);
+  }
+</style>
+
+<script>
+// Initialize zoom variables in the global scope
+var mainZoomLevel = 1;
+var modalZoomLevel = 1;
+var zoomStep = 0.1;
+var activeCardId = null;
+
+document.addEventListener('DOMContentLoaded', function() {
+    var imageContainer = document.getElementById('image-container');
+    var overlay = document.getElementById('highlight-overlay');
+    var labelCards = document.querySelectorAll('.label-card');
+    var image = document.getElementById('document-image');
+    var modalImg = document.getElementById('modal-image');
+
+    // Prevent form submission on button click
+    document.querySelectorAll('button').forEach(function(button) {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            return false;
+        });
+    });
+    
+    // Wait for image to load
+    image.onload = function() {
+        // Add click handlers to labels
+        labelCards.forEach(function(card, index) {
+            card.dataset.cardId = 'card-' + index; // Add unique ID to each card
+            card.addEventListener('click', function(e) {
+                // Don't trigger highlight if clicking input
+                if (!e.target.matches('input')) {
+                    activeCardId = this.dataset.cardId;
+                    highlightBox(this);
+                }
+            });
+        });
+    };
+
+    // Main image zoom controls
+    document.getElementById('main-zoom-in').addEventListener('click', function(e) {
+        e.preventDefault(); // Prevent form submission
+        mainZoomLevel += zoomStep;
+        updateMainZoom();
+        return false;
+    });
+
+    document.getElementById('main-zoom-out').addEventListener('click', function(e) {
+        e.preventDefault(); // Prevent form submission
+        if (mainZoomLevel > zoomStep) {
+            mainZoomLevel -= zoomStep;
+            updateMainZoom();
+        }
+        return false;
+    });
+
+    document.getElementById('main-zoom-reset').addEventListener('click', function(e) {
+        e.preventDefault(); // Prevent form submission
+        mainZoomLevel = 1;
+        updateMainZoom();
+        return false;
+    });
+
+    function updateMainZoom() {
+        image.style.transform = 'scale(' + mainZoomLevel + ')';
+        image.style.transformOrigin = 'center center';
+        
+        // Update the highlight boxes after zoom
+        if (activeCardId) {
+            var activeCard = document.querySelector('[data-card-id="' + activeCardId + '"]');
+            if (activeCard) {
+                highlightBox(activeCard);
+            }
+        }
+    }
+
+    // Modal zoom controls
+    document.getElementById('zoom-in').addEventListener('click', function(e) {
+        e.preventDefault(); // Prevent form submission
+        modalZoomLevel += zoomStep;
+        updateModalZoom();
+        return false;
+    });
+
+    document.getElementById('zoom-out').addEventListener('click', function(e) {
+        e.preventDefault(); // Prevent form submission
+        if (modalZoomLevel > zoomStep) {
+            modalZoomLevel -= zoomStep;
+            updateModalZoom();
+        }
+        return false;
+    });
+
+    document.getElementById('zoom-reset').addEventListener('click', function(e) {
+        e.preventDefault(); // Prevent form submission
+        modalZoomLevel = 1;
+        updateModalZoom();
+        return false;
+    });
+
+    function updateModalZoom() {
+        modalImg.style.transform = 'scale(' + modalZoomLevel + ')';
+        modalImg.style.transformOrigin = 'center center';
+    }
+    
+    function highlightBox(element) {
+        // Remove active class from all cards and clear existing highlights
+        document.querySelectorAll('.label-card').forEach(function(card) {
+            card.classList.remove('active');
+        });
+        overlay.innerHTML = '';
+        
+        // Add active class to clicked card
+        element.classList.add('active');
+        
+        try {
+            var bbox = JSON.parse(element.dataset.bbox);
+            var imageRect = image.getBoundingClientRect();
+            
+            var highlightBox = document.createElement('div');
+            highlightBox.className = 'highlight-box';
+            
+            // Calculate position with current zoom level
+            var scaledLeft = bbox.left * imageRect.width;
+            var scaledTop = bbox.top * imageRect.height;
+            var scaledWidth = bbox.width * imageRect.width;
+            var scaledHeight = bbox.height * imageRect.height;
+            
+            // Set the position and size
+            highlightBox.style.left = scaledLeft + 'px';
+            highlightBox.style.top = scaledTop + 'px';
+            highlightBox.style.width = scaledWidth + 'px';
+            highlightBox.style.height = scaledHeight + 'px';
+            
+            overlay.appendChild(highlightBox);
+        } catch (error) {
+            console.error('Error highlighting box:', error);
+        }
+    }
+
+    // Update highlight positions when window is resized
+    window.addEventListener('resize', function() {
+        if (activeCardId) {
+            var activeCard = document.querySelector('[data-card-id="' + activeCardId + '"]');
+            if (activeCard) {
+                highlightBox(activeCard);
+            }
+        }
+    });
+    
+    // Update highlight when image is zoomed
+    image.addEventListener('transitionend', function() {
+        if (activeCardId) {
+            var activeCard = document.querySelector('[data-card-id="' + activeCardId + '"]');
+            if (activeCard) {
+                highlightBox(activeCard);
+            }
+        }
+    });
+});
+
+// Handle form submission
+document.querySelector('crowd-form').onsubmit = function() {
+    // Create submissions object
+    var submissions = {};
+    
+    // Collect all edited values
+    document.querySelectorAll('.label-card').forEach(function(card) {
+        var labelName = card.dataset.labelName;
+        var value = card.querySelector('.editable-value').value;
+        submissions[labelName] = value;
+    });
+    
+    // Set the answer content
+    this.answer = submissions;
+};
+
+// Image modal functionality
+var modal = document.getElementById('image-modal');
+var modalImg = document.getElementById('modal-image');
+var captionText = document.getElementById('modal-caption');
+var closeModal = document.getElementsByClassName('close-modal')[0];
+
+document.getElementById('document-image').onclick = function(e) {
+    e.preventDefault(); // Prevent form submission
+    modal.style.display = 'block';
+    modalImg.src = this.src;
+    captionText.innerHTML = 'Document Image';
+    
+    // Reset modal zoom level when opening
+    modalZoomLevel = 1;
+    modalImg.style.transform = 'scale(1)';
+    return false;
+};
+
+closeModal.onclick = function(e) {
+    e.preventDefault(); // Prevent form submission
+    modal.style.display = 'none';
+    return false;
+};
+
+modal.onclick = function(event) {
+    if (event.target === modal) {
+        event.preventDefault(); // Prevent form submission
+        modal.style.display = 'none';
+    }
+    return false;
+};
+
+// Add keyboard support for modal navigation and zoom
+document.addEventListener('keydown', function(event) {
+    // Close modal with Escape key
+    if (event.key === 'Escape' && modal.style.display === 'block') {
+        modal.style.display = 'none';
+    }
+    
+    // If modal is open, handle zoom with + and - keys
+    if (modal.style.display === 'block') {
+        if (event.key === '+' || event.key === '=') {
+            document.getElementById('zoom-in').click();
+        } else if (event.key === '-' || event.key === '_') {
+            document.getElementById('zoom-out').click();
+        } else if (event.key === '0') {
+            document.getElementById('zoom-reset').click();
+        }
+    } else {
+        // If main view is active, handle zoom
+        if (event.key === '+' || event.key === '=') {
+            document.getElementById('main-zoom-in').click();
+        } else if (event.key === '-' || event.key === '_') {
+            document.getElementById('main-zoom-out').click();
+        } else if (event.key === '0') {
+            document.getElementById('main-zoom-reset').click();
+        }
+    }
+});
+</script>

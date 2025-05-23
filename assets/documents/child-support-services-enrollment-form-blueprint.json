@@ -1,0 +1,275 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"description": "Indiana Child Support Services Enrollment Form",
+	"class": "Child-Support-Enrollment-Form",
+	"type": "object",
+	"definitions": {
+		"EMPLOYMENT_STATUS": {
+			"type": "object",
+			"properties": {
+				"currently_employed": {
+					"type": "boolean",
+					"inferenceType": "explicit",
+					"instruction": "Whether the enrollee is currently employed"
+				},
+				"employer_name": {
+					"type": "string",
+					"inferenceType": "explicit",
+					"instruction": "Name of the enrollee's employer"
+				}
+			}
+		},
+		"Address": {
+			"type": "object",
+			"properties": {
+				"Street": {
+					"type": "string",
+					"inferenceType": "explicit",
+					"instruction": "What is the street address?"
+				},
+				"City": {
+					"type": "string",
+					"inferenceType": "explicit",
+					"instruction": "What is the city?"
+				},
+				"State": {
+					"type": "string",
+					"inferenceType": "explicit",
+					"instruction": "What is the state?"
+				},
+				"ZipCode": {
+					"type": "string",
+					"inferenceType": "explicit",
+					"instruction": "What is the address zip code?"
+				}
+			}
+		},
+		"ENROLLEE_NAME": {
+			"type": "object",
+			"properties": {
+				"last_name": {
+					"type": "string",
+					"inferenceType": "explicit",
+					"instruction": "Last name of the enrollee"
+				},
+				"first_name": {
+					"type": "string",
+					"inferenceType": "explicit",
+					"instruction": "First name of the enrollee"
+				},
+				"middle_name": {
+					"type": "string",
+					"inferenceType": "explicit",
+					"instruction": "Middle name of the enrollee"
+				}
+			}
+		},
+		"DEPENDENT_INFO": {
+			"type": "object",
+			"properties": {
+				"last_name": {
+					"type": "string",
+					"inferenceType": "explicit",
+					"instruction": "Last name of the dependent"
+				},
+				"first_name": {
+					"type": "string",
+					"inferenceType": "explicit",
+					"instruction": "First name of the dependent"
+				},
+				"middle_name": {
+					"type": "string",
+					"inferenceType": "explicit",
+					"instruction": "Middle name of the dependent"
+				},
+				"date_of_birth": {
+					"type": "string",
+					"inferenceType": "inferred",
+					"instruction": "Date of birth of the dependent  in YYYY-MM-DD format"
+				},
+				"birth_place": {
+					"type": "string",
+					"inferenceType": "explicit",
+					"instruction": "Place of birth of the dependent"
+				},
+				"gender": {
+					"type": "string",
+					"inferenceType": "inferred",
+					"instruction": "Gender of the dependent Male or Female"
+				},
+				"race": {
+					"type": "string",
+					"inferenceType": "explicit",
+					"instruction": "Race of the dependent"
+				},
+				"ssn": {
+					"type": "string",
+					"inferenceType": "inferred",
+					"instruction": "Social Security Number or ITIN of the dependent in XXX-XX-XXXX format"
+				},
+				"paternity_established": {
+					"type": "boolean",
+					"inferenceType": "explicit",
+					"instruction": "Whether paternity has been established for this dependent"
+				},
+				"paternity_establishment_method": {
+					"type": "string",
+					"inferenceType": "explicit",
+					"instruction": "How paternity was established for this dependent"
+				},
+				"paternity_establishment_location": {
+					"type": "string",
+					"inferenceType": "explicit",
+					"instruction": "Where paternity was established for this dependent"
+				},
+				"court_ordered_child_support": {
+					"type": "boolean",
+					"inferenceType": "explicit",
+					"instruction": "Whether there is a court ordered child support obligation for this dependent"
+				},
+				"child_support_order_location": {
+					"type": "string",
+					"inferenceType": "explicit",
+					"instruction": "Where the child support order was issued for this dependent"
+				},
+				"enrolled_in_medicaid": {
+					"type": "boolean",
+					"inferenceType": "explicit",
+					"instruction": "Whether the dependent is enrolled in Medicaid"
+				}
+			}
+		},
+		"Other parent Info": {
+			"type": "object",
+			"properties": {
+				"last_name": {
+					"type": "string",
+					"inferenceType": "explicit",
+					"instruction": "Last Name of Other Parent"
+				},
+				"first_name": {
+					"type": "string",
+					"inferenceType": "explicit",
+					"instruction": "First name of Other Parent"
+				},
+				"Date_of_Birth": {
+					"type": "string",
+					"inferenceType": "inferred",
+					"instruction": "Date of Birth of Other parent in YYYY-MM-DD format"
+				},
+				"Weight": {
+					"type": "string",
+					"inferenceType": "inferred",
+					"instruction": "Weight of Other Parent"
+				},
+				"Height": {
+					"type": "string",
+					"inferenceType": "inferred",
+					"instruction": "Height of Other Parent in Inches"
+				},
+				"Home_Address": {
+					"type": "string",
+					"inferenceType": "explicit",
+					"instruction": "Home Address of Other Parent"
+				},
+				"gender": {
+					"type": "string",
+					"inferenceType": "inferred",
+					"instruction": "Gender of Other Parent : Male or Female"
+				},
+				"Telephone_number": {
+					"type": "string",
+					"inferenceType": "inferred",
+					"instruction": "Phone Number of Other Parent in (XXX) - XXX - XXXX format."
+				}
+			}
+		}
+	},
+	"properties": {
+		"enrollee_name": {
+			"$ref": "#/definitions/ENROLLEE_NAME",
+			"instruction": "Name of the enrollee"
+		},
+		"enrollee_relationship": {
+			"type": "string",
+			"inferenceType": "explicit",
+			"instruction": "Relationship of the enrollee to the dependents"
+		},
+		"enrollee_custody": {
+			"type": "boolean",
+			"inferenceType": "explicit",
+			"instruction": "Whether the enrollee has primary physical custody of the dependents"
+		},
+		"enrollee_dob": {
+			"type": "string",
+			"inferenceType": "explicit",
+			"instruction": "Date of birth of the enrollee  in YYYY-MM-DD format"
+		},
+		"enrollee_gender": {
+			"type": "string",
+			"inferenceType": "inferred",
+			"instruction": "Gender of the enrollee Make or Female"
+		},
+		"enrollee_race": {
+			"type": "string",
+			"inferenceType": "explicit",
+			"instruction": "Race of the enrollee"
+		},
+		"enrollee_ssn": {
+			"type": "string",
+			"inferenceType": "inferred",
+			"instruction": "Social Security Number or ITIN of the enrollee formatted as XXX-XX-XXXX"
+		},
+		"enrollee_needs_assistance": {
+			"type": "boolean",
+			"inferenceType": "explicit",
+			"instruction": "Whether the enrollee needs special assistance"
+		},
+		"enrollee_fears_harm": {
+			"type": "boolean",
+			"inferenceType": "explicit",
+			"instruction": "Whether the enrollee believes pursuing child support services may result in physical or emotional harm to them or their child(ren)"
+		},
+		"enrollee_marital_status": {
+			"type": "string",
+			"inferenceType": "explicit",
+			"instruction": "Marital status of the enrollee to the other parent"
+		},
+		"enrollee_has_private_attorney": {
+			"type": "boolean",
+			"inferenceType": "explicit",
+			"instruction": "Whether the enrollee has a private attorney handling paternity and/or support matters for the dependents"
+		},
+		"enrollee_contact_info": {
+			"type": "string",
+			"inferenceType": "inferred",
+			"instruction": "Contact information of the enrollee in (XXX) XXX-XXXX format"
+		},
+		"enrollee_employment_status": {
+			"$ref": "#/definitions/EMPLOYMENT_STATUS",
+			"instruction": "Employment status of the enrollee"
+		},
+		"dependent1_info": {
+			"$ref": "#/definitions/DEPENDENT_INFO",
+			"instruction": "Information about the first dependent"
+		},
+		"enrollee_address": {
+			"$ref": "#/definitions/Address",
+			"instruction": "Home address of the enrollee"
+		},
+		"other_parent_Info": {
+			"$ref": "#/definitions/Other%20parent%20Info",
+			"instruction": "Information of Other Parent"
+		},
+		"date_signed": {
+			"type": "boolean",
+			"inferenceType": "inferred",
+			"instruction": "True if the Date signed is not in future . "
+		},
+		"Enrollee_signed": {
+			"type": "boolean",
+			"inferenceType": "inferred",
+			"instruction": "True if Enrolee Signed the document at the end"
+		}
+	}
+}
