@@ -95,4 +95,4 @@ We now have a project with 2 blueprints.
 
 
 ## Step 4 : Deployment
-Once the Project with 2 blue prints are created you are ready for end to end deployment using AWS CDK. Check the Deployment Instruction [ReadMe.md](ReadMe.md)
+Once the Project with 2 blue prints are created you are ready for end to end deployment using AWS CDK. Check the Deployment Instruction [README.md](README.md)
