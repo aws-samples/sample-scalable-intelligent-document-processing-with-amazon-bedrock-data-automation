@@ -1,4 +1,0 @@
-aws-cdk-lib==2.142.1
-constructs>=10.0.0,<11.0.0
-appdirs==1.4.3
-cdk-nag>=2.18.44
