@@ -13,23 +13,23 @@ We will next create a project within BDA.
 * Navigate to AWS Console
 * Search for Bedrock in the "Services" search bar
 * Once in the Bedrock console, click on the "Projects" menu under Data Automation.  
-* Then click the “Create Project” button
-* Name the project “my-idpdemo-project”
+* Then click the “Create project” button
+* Name the project “my-idpdemo-project” and click on “Create project” button
 
 <img src="../../blob/main/assets/screenshots/AWS_Console_Screenshot_1_-_BDA_Projects.png" width="800" />
 
-## Step 2 : Add Standard Bluerint to the BDA Project
+## Step 2 : Add Standard Blueprint to the BDA Project
 
 Next we will add a set of standard blueprints to the project. These blueprints are provided by AWS out-of-the-box. 
 
 * click the “Edit” button on the project we just created
-* Choose the ‘Custom Output’ tab, where we can see the Blueprints assigned to the project. 
+* Choose the ‘Custom output’ tab, where we can see the Blueprints assigned to the project. 
 
 <img src="../../blob/main/assets/screenshots/AWS_Console_Screenshot_2_-_idpdemo_project.png" width="800" />
 
 *  Note the Project ID from the Project Details section (e.g., "c7ad285a4905" from the ARN "arn:aws:bedrock:XX-XXXX-X:XXXXXXXXXX:data-automation-project/c7ad285a4905"), you will need it while deploying the solution.
-* “Select from enable checkbox” in the Document Splitter section.
-* click the “Select from blueprint list” button. 
+* Select "Enable" checkbox in the Document Splitter section.
+* Click the “Select from blueprint list” button from the "Add blueprint" dropdown menu. 
 * Enter “US-Driver-License” into the search box, to find the “US-Driver-License” blueprint
 * Select and click “Add blueprints”
 
@@ -39,7 +39,7 @@ Your project now will have one blueprint and looks like this.
 
 <img src="../../blob/main/assets/screenshots/AWS_Console_Screenshot_4_-_list_blueprints_1.png" width="800" />
 
-* Save the changes to the project by clicking the "Save" button, then select "Create Blueprint" from the "Add Blueprint" dropdown menu.
+* Save the changes to the project by clicking the "Save changes" button, then select "Create blueprint" from the "Add blueprint" dropdown menu.
 
 <img src="../../blob/main/assets/screenshots/AWS_Console_Screenshot_5_-_create_blueprint.png" width="800" />
 
@@ -56,15 +56,15 @@ We saw how to add sample blueprint to the BDA Project, now let's create a custom
 <img src="../../blob/main/assets/screenshots/AWS_Console_Screenshot_6_-_extraction_start.png" width="800" />
 
 
-* Click the “Generate Blueprint” button. BDA will read the sample file, extract the keys and values, and create a new reusable Blueprint for Child Support Services Enrollment Forms. 
-* Name the blueprint “child-support-services-enrollment-form-blueprint”
+* Click the “Generate blueprint” button. BDA will read the sample file, extract the keys and values, and create a new reusable Blueprint for Child Support Services Enrollment Forms. 
+* Name the blueprint “child-support-services-enrollment-form-blueprint” and click “Create blueprint”
 
 
 <img src="../../blob/main/assets/screenshots/AWS_Console_Screenshot_7_-_extraction_end.png" width="800" />
 
 * Click “Save and exit blueprint prompt”
-* Click “Add to Project” and “Add to existing project”, add add this new blueprint to our project named “my-idpdemo-project”. 
-* Click Generate result and review the extracted fields from the blueprint. BDA will identify and extract most of the key fields from the form based on the initial prompt, fields where data is not present in the document will appear blank. If you need to extract specific fields that weren't automatically detected, you can either:
+* Click “Add to project” and “Add to existing project”, add add this new blueprint to our project named “my-idpdemo-project”. 
+* Click "Get result" and review the extracted fields from the blueprint. BDA will identify and extract most of the key fields from the form based on the initial prompt, fields where data is not present in the document will appear blank. If you need to extract specific fields that weren't automatically detected, you can either:
 
     - Refine your initial prompt with more precise wording, or
     - Choose 'Manually create blueprint' to explicitly define which fields you want to extract.
