@@ -20,7 +20,7 @@
 # -------------------------------------------------------------------------------------------
 # -------------------------------------------------------------------------------------------
 # ~ ENTER SAGEMAKER AUGMENTED AI WORKFLOW ARN HERE:
-SAGEMAKER_WORKFLOW_AUGMENTED_AI_ARN_EV = "arn:aws:sagemaker:us-west-2:381491830521:flow-definition/bda-workflow"
+SAGEMAKER_WORKFLOW_AUGMENTED_AI_ARN_EV = "arn:aws:sagemaker:us-XXXXX-X:XXXXXXXXXXXX:flow-definition/bda-workflow"
 
 # -------------------------------------------------------------------------------------------
 # ---cdk----------------------------------------------------------------------------------------
