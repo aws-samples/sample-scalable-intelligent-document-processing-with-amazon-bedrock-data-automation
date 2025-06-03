@@ -16,18 +16,21 @@ The following code deploys the reference implementation in your AWS account. The
 	```
 	git clone https://github.com/aws-samples/sample-scalable-intelligent-document-processing-with-amazon-bedrock-data-automation
 	```
-2. Execute the following commands to create the sharp npm package (a high-performance image processing library used to resize images to comply with Amazon Bedrock Data Automation size limits as per https://docs.aws.amazon.com/bedrock/latest/userguide/bda-limits.html), adjusting the paths as needed for your installation directory:
-	```
-	mkdir -p ~/environment/sharplayer/nodejs && cd ~/environment/sharplayer/nodejs 
-	npm init -y && npm install --arch=x64 --platform=linux sharp 
-	cd .. && zip -r sharplayer.zip . 
-	cp sharplayer.zip ~/environment/sample-scalable-intelligent-document-processing-with-amazon-bedrock-data-automation/deploy_code/multipagepdfbda_imageresize/ 
-	cd .. && rm -r sharplayer
-	```	
-3. Navigate back to the repository directory (use the full path to where you cloned the repo):
+
+2. Navigate to the repository directory (use the full path to where you cloned the repo):
 	```
 	cd sample-scalable-intelligent-document-processing-with-amazon-bedrock-data-automation
 	```
+	
+3. Execute the following commands to create the sharp npm package (a high-performance image processing library used to resize images to comply with Amazon Bedrock Data Automation size limits as per https://docs.aws.amazon.com/bedrock/latest/userguide/bda-limits.html):
+	```
+	mkdir -p sharplayer/nodejs && cd sharplayer/nodejs 
+	npm init -y && npm install --arch=x64 --platform=linux sharp 
+	cd .. && zip -r sharplayer.zip . 
+	cp sharplayer.zip ../deploy_code/multipagepdfbda_imageresize/
+	cd .. && rm -r sharplayer
+	```	
+	
 4. Run the following command:
 	```
 	pip install -r requirements.txt
