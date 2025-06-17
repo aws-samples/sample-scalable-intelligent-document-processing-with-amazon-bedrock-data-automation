@@ -70,11 +70,11 @@ The following code deploys the reference implementation in your AWS account. The
 	```
 10. Update the cross-origin resource sharing (CORS) for the S3 bucket:
 
-	   a. On the Amazon S3 console, choose Buckets in the navigation pane.
-	   b. Choose the name of the bucket that was created in the AWS CDK deployment step. It should have a name format like multipagepdfbda-multipagepdf-xxxxxxxxx.
-	   c. Choose Permissions.
-	   d. In the Cross-origin resource sharing (CORS) section, choose Edit.
-	   e. In the CORS configuration editor text box, enter the following CORS configuration:
+		1. On the Amazon S3 console, choose Buckets in the navigation pane.
+		2. Choose the name of the bucket that was created in the AWS CDK deployment step. It should have a name format like multipagepdfbda-multipagepdf-xxxxxxxxx.
+		3. Choose Permissions.
+		4. In the Cross-origin resource sharing (CORS) section, choose Edit.
+		5. In the CORS configuration editor text box, enter the following CORS configuration:
 
       ```
       [
@@ -97,14 +97,14 @@ The following code deploys the reference implementation in your AWS account. The
       ```
 11. Create a private team: https://docs.aws.amazon.com/sagemaker/latest/dg/sms-workforce-create-private-console.html
 	
-		a. On the SageMaker AI console, navigate to "Labeling workforces" under Ground Truth in the navigation pane.
-		b. Select the Private tab and choose "Create private team".
-		c. Select "Invite new workers by email".
-		d. In the Email addresses box, enter the email addresses for your work team (use your email address for testing).
-		e. Provide an organization name and contact email.
-		f. Click "Create private team".
-		g. After creating the private team, you will receive an email invitation.
-		h. Click the invitation link and change your password to become a verified worker for the team.
+		1. On the SageMaker AI console, navigate to "Labeling workforces" under Ground Truth in the navigation pane.
+		2. Select the Private tab and choose "Create private team".
+		3. Select "Invite new workers by email".
+		4. In the Email addresses box, enter the email addresses for your work team (use your email address for testing).
+		5. Provide an organization name and contact email.
+		6. Click "Create private team".
+		7. After creating the private team, you will receive an email invitation.
+		8. Click the invitation link and change your password to become a verified worker for the team.
 
 Your workforce is now set up and ready to create a human review workflow.
 	
