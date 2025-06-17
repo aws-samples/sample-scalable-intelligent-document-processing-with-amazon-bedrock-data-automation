@@ -69,11 +69,12 @@ The following code deploys the reference implementation in your AWS account. The
 	cdk deploy
 	```
 10. Update the cross-origin resource sharing (CORS) for the S3 bucket:
-   a. On the Amazon S3 console, choose Buckets in the navigation pane.
-   b. Choose the name of the bucket that was created in the AWS CDK deployment step. It should have a name format like multipagepdfbda-multipagepdf-xxxxxxxxx.
-   c. Choose Permissions.
-   d. In the Cross-origin resource sharing (CORS) section, choose Edit.
-   e. In the CORS configuration editor text box, enter the following CORS configuration:
+
+	   a. On the Amazon S3 console, choose Buckets in the navigation pane.
+	   b. Choose the name of the bucket that was created in the AWS CDK deployment step. It should have a name format like multipagepdfbda-multipagepdf-xxxxxxxxx.
+	   c. Choose Permissions.
+	   d. In the Cross-origin resource sharing (CORS) section, choose Edit.
+	   e. In the CORS configuration editor text box, enter the following CORS configuration:
 
       ```
       [
@@ -96,20 +97,20 @@ The following code deploys the reference implementation in your AWS account. The
       ```
 11. Create a private team: https://docs.aws.amazon.com/sagemaker/latest/dg/sms-workforce-create-private-console.html
 	
-	a. On the SageMaker AI console, navigate to "Labeling workforces" under Ground Truth in the navigation pane.
-	b. Select the Private tab and choose "Create private team".
-	c. Select "Invite new workers by email".
-	d. In the Email addresses box, enter the email addresses for your work team (use your email address for testing).
-	e. Provide an organization name and contact email.
-	f. Click "Create private team".
-	g. After creating the private team, you will receive an email invitation.
-	h. Click the invitation link and change your password to become a verified worker for the team.
+		a. On the SageMaker AI console, navigate to "Labeling workforces" under Ground Truth in the navigation pane.
+		b. Select the Private tab and choose "Create private team".
+		c. Select "Invite new workers by email".
+		d. In the Email addresses box, enter the email addresses for your work team (use your email address for testing).
+		e. Provide an organization name and contact email.
+		f. Click "Create private team".
+		g. After creating the private team, you will receive an email invitation.
+		h. Click the invitation link and change your password to become a verified worker for the team.
 
 Your workforce is now set up and ready to create a human review workflow.
 	
 
 12. Create a human review workflow: 
-	 a. Create a Custom Worker task template using the process mentioned here https://docs.aws.amazon.com/sagemaker/latest/dg/a2i-worker-template-console.html#a2i-create-worker-template-console, use the content from Custom-Template file
+	 a. Create a Custom Worker task template using the process mentioned here https://docs.aws.amazon.com/sagemaker/latest/dg/a2i-worker-template-console.html#a2i-create-worker-template-console, use the content from Custom-Template (https://github.com/aws-samples/sample-scalable-intelligent-document-processing-with-amazon-bedrock-data-automation/blob/main/Custom-Template) file
 		
 		1. On the SageMaker AI console, choose Worker task templates under Augmented AI in the navigation pane.
 		2. Click "Create template".
@@ -163,7 +164,7 @@ Your workforce is now set up and ready to create a human review workflow.
 <img src="../../blob/main/assets/screenshots/AWS_Console_Screenshot_10_-_private_team.png" width="800" />
 
 
-4. Sign in with the account you configured with Amazon Cognito.
+4. Sign in with the user account you added to your private team at step 11 above
 5. Select the job you want to complete and choose Start working.
 
 <img src="../../blob/main/assets/screenshots/AWS_Console_Screenshot_10_-_human_review_1.png" width="800" />
